@@ -1,13 +1,17 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { ROUTES } from "../config/routes";
 import { ProtectedRoute } from "../features/auth/components/ProtectedRoute";
-import { MainLayout } from "../layouts/MainLayout";
+import { LoginPage } from "../features/auth/pages/LoginPage";
+import { HomePage } from "../features/catalog/pages/HomePage";
+import { DetailPage } from "../features/remotes/pages/DetailPage";
+import { HistoryPage } from "../features/remotes/pages/HistoryPage";
+import { MainLayout } from "../components/layouts/MainLayout";
 
 export const AppRouter = () => {
   return (
     <Routes>
       {/* Public Route */}
-      <Route path={ROUTES.LOGIN} element={<div>Page Login</div>} />
+      <Route path={ROUTES.LOGIN} element={<LoginPage />} />
 
       {/* Protected Routes inside MainLayout */}
       <Route
@@ -15,7 +19,7 @@ export const AppRouter = () => {
         element={
           <ProtectedRoute>
             <MainLayout>
-              <div>Page Home</div>
+              <HomePage />
             </MainLayout>
           </ProtectedRoute>
         }
@@ -25,7 +29,7 @@ export const AppRouter = () => {
         element={
           <ProtectedRoute>
             <MainLayout>
-              <div>Page Detail</div>
+              <DetailPage />
             </MainLayout>
           </ProtectedRoute>
         }
@@ -35,7 +39,7 @@ export const AppRouter = () => {
         element={
           <ProtectedRoute>
             <MainLayout>
-              <div>Page History</div>
+              <HistoryPage />
             </MainLayout>
           </ProtectedRoute>
         }

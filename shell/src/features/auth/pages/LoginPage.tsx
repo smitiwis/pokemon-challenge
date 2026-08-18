@@ -1,6 +1,6 @@
 import { type FC } from "react";
 import { LoginForm } from "../components/LoginForm";
-import { ThemeToggle } from "../../../layouts/Header/ThemeToggle";
+import { ThemeToggle } from "../../../components/layouts/Header/ThemeToggle";
 
 export const LoginPage: FC = () => {
   return (
