@@ -1,4 +1,4 @@
-import { useState, type FormEvent, type FC } from "react";
+import { useState, type FC, type SubmitEvent } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
 import { ROUTES } from "../../../config/routes";
@@ -16,7 +16,7 @@ export const LoginForm: FC = () => {
     (location.state as { from?: { pathname: string } })?.from?.pathname ||
     ROUTES.HOME;
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = (e: SubmitEvent) => {
     e.preventDefault();
     const clean = username.trim();
     if (!clean) {
@@ -59,12 +59,7 @@ export const LoginForm: FC = () => {
         onChange={(e) => setPassword(e.target.value)}
       />
 
-      <Button
-        type="submit"
-        variant="primary"
-        size="md"
-        className="w-full mt-2"
-      >
+      <Button type="submit" variant="primary" size="md" className="w-full mt-2">
         Ingresar
       </Button>
     </form>
