@@ -1,8 +1,27 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import federation from "@originjs/vite-plugin-federation";
 import tailwindcss from "@tailwindcss/vite";
 
-// https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [
+    react(),
+    tailwindcss(),
+    federation({
+      name: "mfHistory",
+      filename: "remoteEntry.js",
+      exposes: {
+        "./HistoryApp": "./src/App.tsx",
+      },
+      shared: ["react", "react-dom"],
+    }),
+  ],
+  server: { port: 3002, strictPort: true, cors: true },
+  preview: { port: 3002, strictPort: true, cors: true },
+  build: {
+    target: "esnext",
+    modulePreload: false,
+    minify: false,
+    cssCodeSplit: false,
+  },
 });
