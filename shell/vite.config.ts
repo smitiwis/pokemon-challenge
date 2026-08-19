@@ -13,7 +13,7 @@ export default defineConfig({
         mfDetail: "http://localhost:3001/assets/remoteEntry.js",
         mfHistory: "http://localhost:3002/assets/remoteEntry.js",
       },
-      shared: ["react", "react-dom", "zustand"],
+      shared: ["react", "react-dom", "react-router-dom"],
     }),
   ],
   server: { port: 3000, strictPort: true, cors: true },

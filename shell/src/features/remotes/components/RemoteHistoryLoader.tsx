@@ -9,7 +9,12 @@ export const RemoteHistoryLoader: React.FC = () => {
   return (
     <ErrorBoundary
       moduleName="Microfrontend de Historial"
-      fallback={<RemoteFallback remoteName="mfHistory (Historial)" expectedPort={3002} />}
+      fallback={
+        <RemoteFallback
+          remoteName="mfHistory (Historial)"
+          expectedPort={3002}
+        />
+      }
     >
       <Suspense fallback={<DetailSkeleton />}>
         <RemoteHistoryApp />

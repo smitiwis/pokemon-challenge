@@ -96,7 +96,7 @@ export const usePokemonSearch = () => {
         setNotFound(true);
       }
       setIsLoading(false);
-    }, 350);
+    }, 500);
   };
 
   useEffect(() => {
