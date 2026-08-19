@@ -1,19 +1,14 @@
-import React from "react";
+import { type FC } from "react";
 import { Button } from "../ui/Button";
+import { useNavigate } from "react-router-dom";
 
-interface HistoryEmptyStateProps {
-  onExplore?: () => void;
-}
+interface HistoryEmptyStateProps {}
 
-export const HistoryEmptyState: React.FC<HistoryEmptyStateProps> = ({
-  onExplore,
-}) => {
-  const handleExplore = () => {
-    if (onExplore) {
-      onExplore();
-    } else {
-      window.location.href = "/";
-    }
+export const HistoryEmptyState: FC<HistoryEmptyStateProps> = () => {
+  const navigate = useNavigate();
+
+  const onExplore = () => {
+    navigate("/");
   };
 
   return (
@@ -25,14 +20,11 @@ export const HistoryEmptyState: React.FC<HistoryEmptyStateProps> = ({
         Sin historial de visitas
       </h3>
       <p className="text-sm text-slate-500 dark:text-slate-400 max-w-sm mb-6">
-        Aún no has explorado ningún Pokémon. Los Pokémon que visites en el inicio o buscador aparecerán listados aquí.
+        Aún no has explorado ningún Pokémon. Los Pokémon que visites en el
+        inicio o buscador aparecerán listados aquí.
       </p>
 
-      <Button
-        variant="primary"
-        onClick={handleExplore}
-        className="px-6 font-bold"
-      >
+      <Button variant="primary" onClick={onExplore} className="px-6 font-bold">
         Explorar Pokémon
       </Button>
     </div>

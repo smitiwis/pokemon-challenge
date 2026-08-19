@@ -13,7 +13,7 @@ export default defineConfig({
       exposes: {
         "./HistoryApp": "./src/App.tsx",
       },
-      shared: ["react", "react-dom"],
+      shared: ["react", "react-dom", "react-router-dom"],
     }),
   ],
   server: { port: 3002, strictPort: true, cors: true },

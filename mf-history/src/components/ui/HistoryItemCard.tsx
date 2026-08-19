@@ -9,7 +9,7 @@ import {
 
 interface HistoryItemCardProps {
   item: HistoryItem;
-  onClick?: (id: number | string) => void;
+  onClick: (id: number | string) => void;
 }
 
 export const HistoryItemCard: React.FC<HistoryItemCardProps> = ({
@@ -26,17 +26,9 @@ export const HistoryItemCard: React.FC<HistoryItemCardProps> = ({
     }
   };
 
-  const handleClick = () => {
-    if (onClick) {
-      onClick(item.id);
-    } else {
-      window.location.href = `/pokemon/${item.id}`;
-    }
-  };
-
   return (
     <div
-      onClick={handleClick}
+      onClick={() => onClick(item.id)}
       className="group flex items-center justify-between p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-800/90 border border-slate-200/80 dark:border-slate-700/80 hover:border-red-400 dark:hover:border-red-500/60 shadow-xs hover:shadow-md transition-all duration-200 cursor-pointer transform hover:-translate-y-0.5"
     >
       <div className="flex items-center gap-4 sm:gap-5 min-w-0">
@@ -74,7 +66,9 @@ export const HistoryItemCard: React.FC<HistoryItemCardProps> = ({
         <div className="flex flex-col items-end">
           <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 border border-red-200/60 dark:border-red-900/40 font-mono">
             <span>👁️</span>
-            <span>{item.visits} {item.visits === 1 ? "visita" : "visitas"}</span>
+            <span>
+              {item.visits} {item.visits === 1 ? "visita" : "visitas"}
+            </span>
           </span>
         </div>
 

@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useVisitHistory } from "../../hooks/useVisitHistory";
 import { HistoryItemCard } from "../../components/ui/HistoryItemCard";
 import { HistoryEmptyState } from "../../components/feedback/HistoryEmptyState";
@@ -6,31 +7,24 @@ import { Card } from "../../components/ui/Card";
 import { Button } from "../../components/ui/Button";
 
 export interface HistoryViewProps {
-  onBack?: () => void;
   onSelectPokemon?: (id: number | string) => void;
 }
 
 export const HistoryView: React.FC<HistoryViewProps> = ({
-  onBack,
   onSelectPokemon,
 }) => {
+  const navigate = useNavigate();
   const { history, clearHistory } = useVisitHistory();
 
-  const handleBack = () => {
-    if (onBack) {
-      onBack();
-    } else if (window.history.length > 1) {
-      window.history.back();
-    } else {
-      window.location.href = "/";
-    }
+  const onBack = () => {
+    navigate("/");
   };
 
   const handleSelect = (id: number | string) => {
     if (onSelectPokemon) {
       onSelectPokemon(id);
     } else {
-      window.location.href = `/pokemon/${id}`;
+      navigate(`/pokemon/${id}`);
     }
   };
 
@@ -57,7 +51,7 @@ export const HistoryView: React.FC<HistoryViewProps> = ({
 
         {/* Lista de Elementos del Historial (según Wireframe) */}
         {history.length === 0 ? (
-          <HistoryEmptyState onExplore={handleBack} />
+          <HistoryEmptyState />
         ) : (
           <div className="space-y-3 max-h-130 overflow-y-auto pr-1 py-1">
             {history.map((item) => (
@@ -75,7 +69,7 @@ export const HistoryView: React.FC<HistoryViewProps> = ({
           <Button
             variant="secondary"
             size="md"
-            onClick={handleBack}
+            onClick={onBack}
             className="w-full sm:w-auto px-6 font-semibold"
             leftIcon={
               <svg
