@@ -13,7 +13,7 @@ export default defineConfig({
       exposes: {
         "./DetailApp": "./src/App.tsx",
       },
-      shared: ["react", "react-dom"],
+      shared: ["react", "react-dom", "react-router-dom"],
     }),
   ],
   server: { port: 3001, strictPort: true, cors: true },

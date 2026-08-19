@@ -1,16 +1,21 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 interface DetailErrorProps {
   message?: string;
   onRetry?: () => void;
-  onBack?: () => void;
 }
 
 export const DetailError: React.FC<DetailErrorProps> = ({
   message = "No pudimos cargar los detalles del Pokémon.",
   onRetry,
-  onBack,
 }) => {
+  const navigate = useNavigate();
+
+  const onBack = () => {
+    navigate("/");
+  };
+
   return (
     <div className="w-full max-w-lg mx-auto p-6 sm:p-8 text-center my-10">
       <div className="p-8 rounded-3xl bg-red-50/80 dark:bg-red-950/20 border border-red-200 dark:border-red-900/40 shadow-sm flex flex-col items-center">
@@ -33,14 +38,12 @@ export const DetailError: React.FC<DetailErrorProps> = ({
               Reintentar
             </button>
           )}
-          {onBack && (
-            <button
-              onClick={onBack}
-              className="px-5 py-2 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-sm transition-all"
-            >
-              Regresar
-            </button>
-          )}
+          <button
+            onClick={onBack}
+            className="px-5 py-2 rounded-xl bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-sm transition-all"
+          >
+            Regresar
+          </button>
         </div>
       </div>
     </div>

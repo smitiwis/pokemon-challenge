@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { usePokemonDetail } from "../../hooks/usePokemonDetail";
 import { useRecordVisit } from "../../hooks/useRecordVisit";
 import { PokemonHeader } from "../../components/ui/PokemonHeader";
@@ -12,26 +13,19 @@ import { DetailError } from "../../components/feedback/DetailError";
 
 export interface PokemonDetailViewProps {
   pokemonId?: string | number;
-  onBack?: () => void;
 }
 
 export const PokemonDetailView: React.FC<PokemonDetailViewProps> = ({
   pokemonId = "1",
-  onBack,
 }) => {
+  const navigate = useNavigate();
   const { pokemon, loading, error, refetch } = usePokemonDetail(pokemonId);
 
   // Registrar visita en historial (Persistencia y Toast del Shell)
   useRecordVisit(pokemon);
 
   const handleBack = () => {
-    if (onBack) {
-      onBack();
-    } else if (window.history.length > 1) {
-      window.history.back();
-    } else {
-      window.location.href = "/";
-    }
+    navigate("/");
   };
 
   if (loading) {
@@ -43,7 +37,6 @@ export const PokemonDetailView: React.FC<PokemonDetailViewProps> = ({
       <DetailError
         message={error || "No se encontraron datos del Pokémon."}
         onRetry={refetch}
-        onBack={handleBack}
       />
     );
   }
