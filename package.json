@@ -1,0 +1,13 @@
+{
+  "name": "pokemon-challenge-root",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build:all": "yarn --cwd mf-detail build && yarn --cwd mf-history build && yarn --cwd shell build",
+    "preview:detail": "yarn --cwd mf-detail preview",
+    "preview:history": "yarn --cwd mf-history preview",
+    "dev:shell": "yarn --cwd shell dev",
+    "dev:detail": "yarn --cwd mf-detail dev",
+    "dev:history": "yarn --cwd mf-history dev"
+  }
+}
