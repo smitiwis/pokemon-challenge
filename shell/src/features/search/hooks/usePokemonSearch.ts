@@ -86,8 +86,8 @@ export const usePokemonSearch = () => {
   const handleQueryChange = (newQuery: string) => {
     setQuery(newQuery);
 
-    const clean = normalizePokemonName(newQuery);
-    if (!clean) {
+    const cleanQuery = normalizePokemonName(newQuery);
+    if (!cleanQuery) {
       debouncedSearch.clear();
       setExactMatch(null);
       setNotFound(false);
@@ -95,7 +95,7 @@ export const usePokemonSearch = () => {
       return;
     }
 
-    debouncedSearch(clean);
+    debouncedSearch(cleanQuery);
   };
 
   useEffect(() => {

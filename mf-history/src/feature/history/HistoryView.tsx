@@ -29,7 +29,7 @@ export const HistoryView: React.FC<HistoryViewProps> = ({
   };
 
   return (
-    <div className="w-full max-w-3xl mx-auto py-2">
+    <div className="w-full  py-2">
       <Card className="p-6 sm:p-8 space-y-6">
         {/* Título: Vistos recientemente (según Wireframe) */}
         <div className="flex items-center justify-between border-b border-slate-200/80 dark:border-slate-700/80 pb-4">

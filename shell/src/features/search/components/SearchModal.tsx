@@ -59,10 +59,6 @@ export const SearchModal: FC = () => {
     navigate(buildPokemonDetailRoute(id));
   };
 
-  const handleSearchChange = (search: string) => {
-    setQuery(search);
-  };
-
   return (
     <Modal isOpen={isOpen} onClose={closeModal} fullscreen>
       {/* Top Header / Close Button on top right (Mockup 3) */}
@@ -84,7 +80,7 @@ export const SearchModal: FC = () => {
             ref={inputRef}
             placeholder="Buscar un Pokémon"
             value={query}
-            onChange={(e) => handleSearchChange(e.target.value)}
+            onChange={(e) => setQuery(e.target.value)}
             leftIcon={<span className="text-base">🔍</span>}
             rightIcon={
               query ? (

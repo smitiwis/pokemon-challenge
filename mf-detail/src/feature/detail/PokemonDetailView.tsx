@@ -42,7 +42,7 @@ export const PokemonDetailView: React.FC<PokemonDetailViewProps> = ({
   }
 
   return (
-    <div className="w-full max-w-3xl mx-auto py-2">
+    <div className="w-full  py-2">
       <Card className="p-6 sm:p-8 space-y-6">
         {/* Cabecera: ID, Nombre, Categoría y Badges de Tipo */}
         <PokemonHeader
