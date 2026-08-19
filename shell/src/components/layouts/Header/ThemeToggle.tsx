@@ -9,7 +9,7 @@ export const ThemeToggle: React.FC = () => {
     <button
       onClick={toggleTheme}
       type="button"
-      className="relative p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800/80 hover:bg-slate-200 dark:hover:bg-slate-700/80 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-amber-400 transition-all duration-200 active:scale-95 cursor-pointer shadow-xs focus:outline-none focus:ring-2 focus:ring-red-500/50"
+      className="relative p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-amber-400 transition-all duration-200 active:scale-95 cursor-pointer shadow-xs focus:outline-none focus:ring-2 focus:ring-red-500/50"
       title={`Cambiar a modo ${isDark ? "claro" : "oscuro"}`}
       aria-label={`Cambiar a modo ${isDark ? "claro" : "oscuro"}`}
     >

@@ -1,63 +1,6 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *, [data-theme="dark"], [data-theme="dark"] *));
-
-:root {
-  color-scheme: light;
-}
-
-:root.dark,
-html.dark,
-body.dark,
-[data-theme="dark"] {
-  color-scheme: dark;
-}
-
-html,
-body {
-  min-height: 100vh;
-  margin: 0;
-  background-color: #f8fafc;
-  color: #0f172a;
-  transition: background-color 0.15s ease, color 0.15s ease;
-}
-
-/* Reglas explícitas de alta prioridad para modo oscuro en todo el Shell y Microfrontends */
-html.dark,
-html.dark body,
-body.dark,
-.dark,
-.dark body {
-  background-color: #020617 !important;
-  color: #f8fafc !important;
-}
-
-.dark header {
-  background-color: rgba(15, 23, 42, 0.95) !important;
-  border-bottom-color: #1e293b !important;
-}
-
-.dark header a {
-  color: #f8fafc !important;
-}
-
-.dark main {
-  background-color: transparent !important;
-}
-
-.dark aside[role="status"] {
-  background-color: #0f172a !important;
-  border-color: #1e293b !important;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.6) !important;
-}
-
-.dark aside[role="status"] p {
-  color: #f8fafc !important;
-}
-
-.dark aside[role="status"] p.text-\[10px\] {
-  color: #94a3b8 !important;
-}
+@variant dark (.dark &);
 
 /* Chrome Autofill normalization */
 input:-webkit-autofill,
