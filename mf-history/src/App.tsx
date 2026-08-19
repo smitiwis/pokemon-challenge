@@ -1,7 +1,14 @@
-export default function App() {
+import { HistoryView } from "./feature/history/HistoryView";
+
+export interface HistoryAppProps {
+  onBack?: () => void;
+  onSelectPokemon?: (id: number | string) => void;
+}
+
+export default function App({ onBack, onSelectPokemon }: HistoryAppProps) {
   return (
-    <div className="min-h-screen bg-slate-900 text-white flex items-center justify-center">
-      <h1 className="text-3xl font-bold">MF History</h1>
+    <div className="w-full min-h-full py-2 px-2 sm:px-4 flex flex-col items-center">
+      <HistoryView onBack={onBack} onSelectPokemon={onSelectPokemon} />
     </div>
   );
 }
