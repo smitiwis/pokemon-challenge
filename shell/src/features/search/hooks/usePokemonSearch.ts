@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
+import debounce from "debounce";
 import type { SearchPokemonItem } from "../types";
 import type { Pokemon } from "../../../types/pokemon";
 import { POKEMON_CONFIG } from "../../../config/pokemon.config";
@@ -16,8 +17,6 @@ export const usePokemonSearch = () => {
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [offset, setOffset] = useState(0);
-
-  const debounceTimerRef = useRef<number | null>(null);
 
   // Load initial 30 Pokémon when modal opens
   const loadInitialList = useCallback(async () => {
@@ -39,17 +38,6 @@ export const usePokemonSearch = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (isOpen) {
-      setQuery("");
-      loadInitialList();
-    } else {
-      setQuery("");
-      setExactMatch(null);
-      setNotFound(false);
-    }
-  }, [isOpen, loadInitialList]);
-
   // Infinite scroll loader
   const loadMore = useCallback(async () => {
     if (isLoadingMore || !hasMore || query.trim() !== "") return;
@@ -70,40 +58,63 @@ export const usePokemonSearch = () => {
     }
   }, [isLoadingMore, hasMore, offset, query]);
 
+  const debouncedSearch = useMemo(
+    () =>
+      debounce(async (cleanName: string) => {
+        setIsLoading(true);
+        try {
+          const result = await getPokemonByName(cleanName);
+          if (result) {
+            setExactMatch(result);
+            setNotFound(false);
+          } else {
+            setExactMatch(null);
+            setNotFound(true);
+          }
+        } catch (error) {
+          console.error("Error buscando Pokémon:", error);
+          setExactMatch(null);
+          setNotFound(true);
+        } finally {
+          setIsLoading(false);
+        }
+      }, 500),
+    [],
+  );
+
   // Exact match search handler
   const handleQueryChange = (newQuery: string) => {
     setQuery(newQuery);
 
-    if (debounceTimerRef.current) {
-      clearTimeout(debounceTimerRef.current);
-    }
-
     const clean = normalizePokemonName(newQuery);
     if (!clean) {
+      debouncedSearch.clear();
       setExactMatch(null);
       setNotFound(false);
+      setIsLoading(false);
       return;
     }
 
-    debounceTimerRef.current = window.setTimeout(async () => {
-      setIsLoading(true);
-      const result = await getPokemonByName(clean);
-      if (result) {
-        setExactMatch(result);
-        setNotFound(false);
-      } else {
-        setExactMatch(null);
-        setNotFound(true);
-      }
-      setIsLoading(false);
-    }, 500);
+    debouncedSearch(clean);
   };
 
   useEffect(() => {
+    if (isOpen) {
+      setQuery("");
+      loadInitialList();
+    } else {
+      setQuery("");
+      setExactMatch(null);
+      setNotFound(false);
+      debouncedSearch.clear();
+    }
+  }, [isOpen, loadInitialList, debouncedSearch]);
+
+  useEffect(() => {
     return () => {
-      if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
+      debouncedSearch.clear();
     };
-  }, []);
+  }, [debouncedSearch]);
 
   return {
     isOpen,

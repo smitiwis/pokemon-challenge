@@ -1,41 +1,28 @@
 import { useEffect, useRef, type FC } from "react";
 import { useNavigate } from "react-router-dom";
-import type { SearchPokemonItem } from "../types";
-import type { Pokemon } from "../../../types/pokemon";
 import { PokemonCard, Modal, Input } from "../../../components/ui";
 import { buildPokemonDetailRoute } from "../../../config/routes";
 import { getPokemonImageUrl } from "../../../utils/pokemonHelpers";
+import { usePokemonSearch } from "../hooks/usePokemonSearch";
 
-interface SearchModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  query: string;
-  onQueryChange: (query: string) => void;
-  pokemons: SearchPokemonItem[];
-  exactMatch: Pokemon | null;
-  notFound: boolean;
-  isLoading: boolean;
-  isLoadingMore: boolean;
-  hasMore: boolean;
-  onLoadMore: () => void;
-}
-
-export const SearchModal: FC<SearchModalProps> = ({
-  isOpen,
-  onClose,
-  query,
-  onQueryChange,
-  pokemons,
-  exactMatch,
-  notFound,
-  isLoading,
-  isLoadingMore,
-  hasMore,
-  onLoadMore,
-}) => {
+export const SearchModal: FC = () => {
   const navigate = useNavigate();
   const observerTargetRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const {
+    isOpen,
+    closeModal,
+    query,
+    setQuery,
+    pokemons,
+    exactMatch,
+    notFound,
+    isLoading,
+    isLoadingMore,
+    hasMore,
+    loadMore,
+  } = usePokemonSearch();
 
   // Focus input on open
   useEffect(() => {
@@ -51,7 +38,7 @@ export const SearchModal: FC<SearchModalProps> = ({
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          onLoadMore();
+          loadMore();
         }
       },
       { threshold: 0.1 },
@@ -65,20 +52,24 @@ export const SearchModal: FC<SearchModalProps> = ({
     return () => {
       if (currentTarget) observer.unobserve(currentTarget);
     };
-  }, [isOpen, query, hasMore, onLoadMore]);
+  }, [isOpen, query, hasMore, loadMore]);
 
   const handleSelectPokemon = (id: number | string) => {
-    onClose();
+    closeModal();
     navigate(buildPokemonDetailRoute(id));
   };
 
+  const handleSearchChange = (search: string) => {
+    setQuery(search);
+  };
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose} fullscreen>
+    <Modal isOpen={isOpen} onClose={closeModal} fullscreen>
       {/* Top Header / Close Button on top right (Mockup 3) */}
       <div className="p-4 sm:p-6 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-20 flex flex-col items-center shadow-xs transition-colors">
         <div className="w-full max-w-5xl flex justify-end mb-2">
           <button
-            onClick={onClose}
+            onClick={closeModal}
             className="text-2xl text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white p-1.5 transition-colors cursor-pointer"
             title="Cerrar modal (ESC)"
             aria-label="Cerrar modal"
@@ -93,12 +84,12 @@ export const SearchModal: FC<SearchModalProps> = ({
             ref={inputRef}
             placeholder="Buscar un Pokémon"
             value={query}
-            onChange={(e) => onQueryChange(e.target.value)}
+            onChange={(e) => handleSearchChange(e.target.value)}
             leftIcon={<span className="text-base">🔍</span>}
             rightIcon={
               query ? (
                 <button
-                  onClick={() => onQueryChange("")}
+                  onClick={() => setQuery("")}
                   className="flex items-center justify-center text-xs font-bold text-slate-400 hover:text-slate-700 dark:hover:text-white px-2 py-1 rounded cursor-pointer"
                   title="Limpiar búsqueda"
                   aria-label="Limpiar búsqueda"
@@ -117,7 +108,9 @@ export const SearchModal: FC<SearchModalProps> = ({
         {isLoading && (
           <div className="flex flex-col items-center justify-center py-20">
             <div className="w-10 h-10 border-4 border-red-500 border-t-transparent rounded-full animate-spin mb-4" />
-            <p className="text-sm text-slate-500 dark:text-slate-400">Buscando Pokémon...</p>
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              Buscando Pokémon...
+            </p>
           </div>
         )}
 
@@ -143,7 +136,9 @@ export const SearchModal: FC<SearchModalProps> = ({
         {!isLoading && notFound && (
           <div className="text-center py-16 max-w-md mx-auto">
             <div className="text-5xl mb-4">🔍❌</div>
-            <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-2">No encontrado</h3>
+            <h3 className="text-xl font-bold text-slate-800 dark:text-white mb-2">
+              No encontrado
+            </h3>
             <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
               No existe ningún Pokémon con el nombre exacto{" "}
               <span className="text-red-500 font-semibold font-mono">
@@ -152,7 +147,8 @@ export const SearchModal: FC<SearchModalProps> = ({
               .
             </p>
             <p className="text-xs text-slate-500 dark:text-slate-500 mt-2">
-              Recuerda escribir el nombre completo en minúsculas y sin acentos según las reglas de PokeAPI.
+              Recuerda escribir el nombre completo en minúsculas y sin acentos
+              según las reglas de PokeAPI.
             </p>
           </div>
         )}

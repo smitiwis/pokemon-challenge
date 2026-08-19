@@ -8,27 +8,33 @@ export const LoginForm: FC = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+
   const login = useAuthStore((s) => s.login);
   const navigate = useNavigate();
   const location = useLocation();
 
-  const from =
-    (location.state as { from?: { pathname: string } })?.from?.pathname ||
-    ROUTES.HOME;
+  const from = location.state || ROUTES.HOME;
 
   const handleSubmit = (e: SubmitEvent) => {
     e.preventDefault();
-    const clean = username.trim();
-    if (!clean) {
-      setError("Por favor ingresa un usuario.");
+
+    if (!username || !password) {
+      setError("Por favor ingresa credenciales validas.");
       return;
     }
-    if (clean.length < 3) {
+
+    if (username.length < 3) {
       setError("El usuario debe tener al menos 3 caracteres.");
       return;
     }
 
-    login(clean);
+    if (password.length < 6) {
+      setError("La contraseña debe tener al menos 6 caracteres.");
+      return;
+    }
+
+    const credentials = { username, password };
+    login(credentials);
     navigate(from, { replace: true });
   };
 
@@ -45,7 +51,7 @@ export const LoginForm: FC = () => {
         placeholder="Usuario"
         value={username}
         onChange={(e) => {
-          setUsername(e.target.value);
+          setUsername(e.target.value.trim());
           if (error) setError(null);
         }}
         autoFocus
@@ -56,7 +62,7 @@ export const LoginForm: FC = () => {
         type="password"
         placeholder="Contraseña"
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={(e) => setPassword(e.target.value.trim())}
       />
 
       <Button type="submit" variant="primary" size="md" className="w-full mt-2">

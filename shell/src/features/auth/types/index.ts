@@ -2,9 +2,14 @@ export interface User {
   username: string;
 }
 
+export interface Credentials {
+  username: string;
+  password: string;
+}
+
 export interface AuthState {
   user: User | null;
   isAuthenticated: boolean;
-  login: (username: string) => void;
+  login: (credentials: Credentials) => void;
   logout: () => void;
 }
