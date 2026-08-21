@@ -2,7 +2,7 @@ import { lazy, Suspense, type FC } from "react";
 import { useParams } from "react-router-dom";
 import { ErrorBoundary } from "../../../components/feedback/ErrorBoundary";
 import { RemoteFallback } from "../../../components/feedback/RemoteFallback";
-import { DetailSkeleton } from "../../../components/feedback/Skeletons";
+import { DetailSkeleton } from "../../../components/feedback/DetailSkeleton";
 
 const RemoteDetailApp = lazy(() => import("mfDetail/DetailApp"));
 

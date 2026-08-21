@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import { ErrorBoundary } from "../../../components/feedback/ErrorBoundary";
 import { RemoteFallback } from "../../../components/feedback/RemoteFallback";
-import { DetailSkeleton } from "../../../components/feedback/Skeletons";
+import { DetailSkeleton } from "../../../components/feedback/DetailSkeleton";
 
 const RemoteHistoryApp = React.lazy(() => import("mfHistory/HistoryApp"));
 

@@ -6,7 +6,7 @@ export interface HistoryAppProps {
 
 export default function App({ onSelectPokemon }: HistoryAppProps) {
   return (
-    <div className="w-full min-h-full py-2 px-2 sm:px-4 flex flex-col items-center">
+    <div className="w-full min-h-full py-2 flex flex-col items-center">
       <HistoryView onSelectPokemon={onSelectPokemon} />
     </div>
   );

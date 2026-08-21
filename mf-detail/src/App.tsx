@@ -17,7 +17,7 @@ export default function App({ pokemonId: propPokemonId }: DetailAppProps) {
   }, [propPokemonId]);
 
   return (
-    <div className="w-full min-h-full py-2 px-2 sm:px-4 flex flex-col items-center">
+    <div className="w-full min-h-full flex flex-col items-center">
       <PokemonDetailView pokemonId={activeId} />
     </div>
   );

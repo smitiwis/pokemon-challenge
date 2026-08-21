@@ -1,14 +1,22 @@
 import { useEffect, useState, useCallback } from "react";
 import type { LastVisitedPokemon } from "../../../types/pokemon";
 import { POKEMON_CONFIG } from "../../../config/pokemon.config";
+import { useLocation } from "react-router-dom";
 
 export const useLastVisitedToast = () => {
-  const [lastVisited, setLastVisited] = useState<LastVisitedPokemon | null>(null);
+  // DETECTAREN QUE PAGE ESTOY
+  const location = useLocation();
+
+  const [lastVisited, setLastVisited] = useState<LastVisitedPokemon | null>(
+    null,
+  );
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     try {
-      const stored = localStorage.getItem(POKEMON_CONFIG.STORAGE_KEYS.LAST_VISITED);
+      const stored = localStorage.getItem(
+        POKEMON_CONFIG.STORAGE_KEYS.LAST_VISITED,
+      );
       const isDismissed = sessionStorage.getItem(
         POKEMON_CONFIG.STORAGE_KEYS.TOAST_DISMISSED,
       );
@@ -22,6 +30,11 @@ export const useLastVisitedToast = () => {
       console.error("Error reading last visited pokemon:", e);
     }
   }, []);
+
+  useEffect(() => {
+    const isPathDetail = location.pathname.includes("/pokemon/");
+    setIsVisible(!isPathDetail);
+  }, [location.pathname]);
 
   const dismissToast = useCallback(() => {
     setIsVisible(false);
