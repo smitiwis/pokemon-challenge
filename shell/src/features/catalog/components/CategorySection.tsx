@@ -28,7 +28,7 @@ export const CategorySection: FC<CategorySectionProps> = ({ category }) => {
           ).
         </div>
       )}
-      {category.pokemons && category.pokemons.length > 0 ? (
+      {category.pokemons && category.pokemons.length > 0 && (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {category.pokemons.map((pokemon) => (
             <PokemonCard
@@ -40,7 +40,8 @@ export const CategorySection: FC<CategorySectionProps> = ({ category }) => {
             />
           ))}
         </div>
-      ) : (
+      )}
+      {category.pokemons.length === 0 && !category.loading && (
         <div className="p-4 rounded-xl bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/40 text-xs text-red-600 dark:text-red-400">
           No se encontraron Pokémon en esta categoría.
         </div>

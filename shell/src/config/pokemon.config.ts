@@ -1,7 +1,7 @@
 export const DEFAULT_HOME_CATEGORIES = [
   { id: "fire", label: "Fuego 🔥", color: "from-orange-500/20 to-red-500/10" },
-  // { id: "water", label: "Agua 💧", color: "from-blue-500/20 to-cyan-500/10" },
-  { id: "waxxter", label: "Agua 💧", color: "from-blue-500/20 to-cyan-500/10" },
+  { id: "water", label: "Agua 💧", color: "from-blue-500/20 to-cyan-500/10" },
+  // { id: "waxxter", label: "Agua 💧", color: "from-blue-500/20 to-cyan-500/10" },
   {
     id: "grass",
     label: "Planta 🌿",

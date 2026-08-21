@@ -20,28 +20,15 @@ export const usePokemonCatalog = () => {
   const fetchCategoryData = async () => {
     setIsLoadingAll(true);
     const promises = DEFAULT_HOME_CATEGORIES.map(async (cat) => {
-      try {
-        const pokemons = await getPokemonByCategory(cat.id);
-        return {
-          categoryId: cat.id,
-          categoryLabel: cat.label,
-          color: cat.color,
-          pokemons,
-          loading: false,
-          error: null,
-        };
-      } catch (err: unknown) {
-        const errorMessage =
-          err instanceof Error ? err.message : "Error al cargar categoría";
-        return {
-          categoryId: cat.id,
-          categoryLabel: cat.label,
-          color: cat.color,
-          pokemons: [],
-          loading: false,
-          error: errorMessage,
-        };
-      }
+      const pokemons = await getPokemonByCategory(cat.id);
+      return {
+        categoryId: cat.id,
+        categoryLabel: cat.label,
+        color: cat.color,
+        pokemons,
+        loading: false,
+        error: null,
+      };
     });
 
     const results = await Promise.all(promises);
